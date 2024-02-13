@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video Streamer</title>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css">
+</head>
+<body>
+    <div>
+        <input type="text" id="youtubeLink" placeholder="Enter YouTube link">
+        <button onclick="playVideo()">Play Video</button>
+    </div>
+    <div id="player"></div>
+
+    <script src="https://cdn.plyr.io/3.6.8/plyr.js"></script>
+    <script>
+        function playVideo() {
+            var link = document.getElementById("youtubeLink").value;
+            var videoID = extractVideoID(link);
+            if (videoID) {
+                var player = new Plyr('#player', {
+                    controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
+                    youtube: {
+                        noCookie: true,
+                        rel: 0,
+                        showinfo: 0,
+                        iv_load_policy: 3
+                    }
+                });
+
+                player.source = {
+                    type: 'video',
+                    sources: [
+                        {
+                            src: 'https://www.youtube.com/watch?v=' + videoID,
+                            type: 'video/youtube'
+                        }
+                    ]
+                };
+            } else {
+                alert("Invalid YouTube link. Please enter a valid link.");
+            }
+        }
+
+        function extractVideoID(link) {
+            var regex = /[?&]([^=#]+)=([^&#]*)/g;
+            var match;
+            while ((match = regex.exec(link)) !== null) {
+                if (match[1] === "v") {
+                    return match[2];
+                }
+            }
+            return null;
+        }
+    </script>
+</body>
+</html>
