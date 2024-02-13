@@ -21,23 +21,10 @@
             if (videoID) {
                 var player = new Plyr('#player', {
                     controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
-                    youtube: {
-                        noCookie: true,
-                        rel: 0,
-                        showinfo: 0,
-                        iv_load_policy: 3
+                    youtube: { 
+                        embedId: videoID
                     }
                 });
-
-                player.source = {
-                    type: 'video',
-                    sources: [
-                        {
-                            src: 'https://www.youtube.com/watch?v=' + videoID,
-                            type: 'video/youtube'
-                        }
-                    ]
-                };
             } else {
                 alert("Invalid YouTube link. Please enter a valid link.");
             }
