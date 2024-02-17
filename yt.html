@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video Downloader</title>
+</head>
+<body>
+    <h1>YouTube Video Downloader</h1>
+    <form id="youtubeForm">
+        <label for="videoUrl">Enter YouTube Video URL:</label><br>
+        <input type="text" id="videoUrl" name="videoUrl" required><br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <div id="videoContainer"></div>
+
+    <script>
+        document.getElementById('youtubeForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var videoUrl = document.getElementById('videoUrl').value;
+            displayVideo(videoUrl);
+        });
+
+        function displayVideo(videoUrl) {
+            var videoId = getVideoId(videoUrl);
+            var embedUrl = "https://www.youtube.com/embed/" + videoId;
+            var iframe = document.createElement('iframe');
+            iframe.setAttribute('src', embedUrl);
+            iframe.setAttribute('width', '560');
+            iframe.setAttribute('height', '315');
+            iframe.setAttribute('allowfullscreen', '');
+            document.getElementById('videoContainer').innerHTML = '';
+            document.getElementById('videoContainer').appendChild(iframe);
+        }
+
+        function getVideoId(url) {
+            var videoId = '';
+            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            var match = url.match(regExp);
+
+            if (match && match[2].length == 11) {
+                videoId = match[2];
+            } else {
+                // Handle invalid URL
+                console.error('Invalid YouTube URL');
+            }
+
+            return videoId;
+        }
+    </script>
+</body>
+</html>
